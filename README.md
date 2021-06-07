@@ -1,14 +1,16 @@
-#**MEET THE FAMILY**
+**MEET THE FAMILY**
+
 This is the solution to the family (meet the family) problem of Geektrust
-###**Build The Code**
+
+**Build The Code**
 
 ```./gradlew clean build```
 
-###Run All Unit Tests
+Run All Unit Tests
 
 ```./gradlew test```
 
-###**Steps to run the code**
+**Steps to run the code**
 
 * Create an input file or use the existing one from the folder `src/main/resources/`
 
