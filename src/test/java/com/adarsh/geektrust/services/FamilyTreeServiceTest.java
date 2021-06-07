@@ -1,4 +1,4 @@
-package com.adarsh.geektrust.service;
+package com.adarsh.geektrust.services;
 
 import com.adarsh.geektrust.AppConstants;
 import com.adarsh.geektrust.exceptions.InvalidMotherGenderException;

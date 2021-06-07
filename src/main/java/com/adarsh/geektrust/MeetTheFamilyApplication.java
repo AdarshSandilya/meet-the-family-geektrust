@@ -1,7 +1,7 @@
 package com.adarsh.geektrust;
 
 import com.adarsh.geektrust.repositories.FamilyTreeRepository;
-import com.adarsh.geektrust.service.FamilyTreeService;
+import com.adarsh.geektrust.services.FamilyTreeService;
 import com.adarsh.geektrust.util.FileProcessor;
 
 public class MeetTheFamilyApplication {

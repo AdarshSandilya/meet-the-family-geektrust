@@ -5,7 +5,7 @@ import com.adarsh.geektrust.exceptions.InvalidCommandException;
 import com.adarsh.geektrust.exceptions.InvalidMotherGenderException;
 import com.adarsh.geektrust.exceptions.PersonNotFoundException;
 import com.adarsh.geektrust.models.Person;
-import com.adarsh.geektrust.service.FamilyTreeService;
+import com.adarsh.geektrust.services.FamilyTreeService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
