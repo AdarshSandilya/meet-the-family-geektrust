@@ -7,20 +7,23 @@ import com.adarsh.geektrust.models.Gender;
 import com.adarsh.geektrust.models.Person;
 import com.adarsh.geektrust.models.RelationshipType;
 import com.adarsh.geektrust.repositories.FamilyTreeRepository;
+import com.adarsh.geektrust.strategies.FetchRelationStrategyFactory;
+import com.adarsh.geektrust.strategies.RelationStrategy;
 
 import java.util.List;
 
 public class FamilyTreeService {
 
     private final FamilyTreeRepository familyTreeRepository;
+    private final FetchRelationStrategyFactory strategyFactory;
 
-    public FamilyTreeService(FamilyTreeRepository familyTreeRepository) {
+    public FamilyTreeService(FamilyTreeRepository familyTreeRepository, FetchRelationStrategyFactory strategyFactory) {
         this.familyTreeRepository = familyTreeRepository;
+        this.strategyFactory = strategyFactory;
     }
 
     public String addChild(String name, String motherName, String gender) throws PersonNotFoundException, InvalidMotherGenderException {
         Gender personGender = Gender.valueOf(gender.toUpperCase());
-        System.out.println(" adding the child -----" + name);
         Person mother = familyTreeRepository.findPersonByName(motherName);
         if (mother == null)
             throw new PersonNotFoundException(AppConstants.Message.PERSON_NOT_FOUND);
@@ -33,21 +36,18 @@ public class FamilyTreeService {
     }
 
     public List<Person> getRelativesOf(String name, String relation) throws PersonNotFoundException {
-        System.out.printf("getting relationship %s for %s%n", relation, name);
         Person person = familyTreeRepository.findPersonByName(name);
         if (person == null)
             throw new PersonNotFoundException(AppConstants.Message.PERSON_NOT_FOUND);
-
         RelationshipType relationshipType = RelationshipType.fromString(relation);
-
-        return person.getRelativesBy(relationshipType);
+        RelationStrategy strategy = strategyFactory.getStrategy(relationshipType);
+        return strategy.apply(person);
     }
 
     public void initializeFamily(String familyHeadName, String gender) {
         Gender personGender = Gender.valueOf(gender.toUpperCase());
         Person familyHead = new Person(familyHeadName, personGender, null);
         familyTreeRepository.addPerson(familyHead);
-        System.out.println("added the king ---" + familyHeadName);
     }
 
     public void addSpouse(String personName, String spouseName, String gender) throws PersonNotFoundException {
@@ -60,7 +60,6 @@ public class FamilyTreeService {
         Person person = new Person(personName, personGender, spouse.getMother());
         person.setSpouse(spouse);
         spouse.setSpouse(person);
-        System.out.println("adding the person -----" + personName);
         familyTreeRepository.addPerson(person);
     }
 }

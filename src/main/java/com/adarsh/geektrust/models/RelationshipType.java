@@ -11,15 +11,11 @@ public enum RelationshipType {
     BROTHER_IN_LAW("BROTHER-IN-LAW"),
     SON("SON"),
     DAUGHTER("DAUGHTER"),
-    SIBLINGS("SIBLINGS"),
-    SPOUSE("SPOUSE"),
-    CHILD("CHILD"),
-    MOTHER("MOTHER"),
-    FATHER("FATHER");
+    SIBLINGS("SIBLINGS");
 
     private final String type;
 
-     RelationshipType(String type) {
+    RelationshipType(String type) {
         this.type = type;
     }
 
@@ -28,6 +24,6 @@ public enum RelationshipType {
     }
 
     static public RelationshipType fromString(String value) {
-        return Arrays.stream(RelationshipType.values()).filter(operator -> operator.getValue().equals(value)).findFirst().orElse(null);
+        return Arrays.stream(RelationshipType.values()).filter(operator -> operator.getValue().equals(value.toUpperCase())).findFirst().orElse(null);
     }
 }

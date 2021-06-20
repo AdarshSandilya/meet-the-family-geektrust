@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class FileProcessor {
 
@@ -23,32 +24,38 @@ public class FileProcessor {
                 switch (action) {
                     case AppConstants.Commands.ADD_CHILD:
                         try {
-                            service.addChild(commands[2], commands[1], commands[3]);
+                            String res = service.addChild(commands[2], commands[1], commands[3]);
+                            System.out.println(res);
                         } catch (PersonNotFoundException | InvalidMotherGenderException e) {
                             System.out.println(e.getMessage());
                         }
                         break;
                     case AppConstants.Commands.ADD_SPOUSE:
-                        service.addSpouse(commands[2], commands[1], commands[3]);
+                        try {
+                            service.addSpouse(commands[2], commands[1], commands[3]);
+                        }
+                        catch (PersonNotFoundException e){
+                            System.out.println(e.getMessage());}
                         break;
                     case AppConstants.Commands.GET_RELATIONSHIP:
                         try {
                             List<Person> res = service.getRelativesOf(commands[1], commands[2]);
                             if (res.isEmpty())
                                 System.out.println(AppConstants.Message.NONE);
+                            else {
+                                List<String> relatives = res.stream().map(Person::getName).collect(Collectors.toList());
+                                System.out.println(String.join(" ", relatives));
+                            }
                         } catch (PersonNotFoundException e) {
                             System.out.println(e.getMessage());
                         }
                         break;
                     default:
-                        String message = String.format("Invalid command %s", action);
-                        throw new InvalidCommandException(message);
+                        System.out.println("Invalid command " +  action);
                 }
             }
         } catch (FileNotFoundException e) {
             System.out.println("Oops! File Not Found!! Please provide valid file path");
-        } catch (InvalidCommandException | PersonNotFoundException e) {
-            System.out.println(e.getMessage());
         }
     }
 
