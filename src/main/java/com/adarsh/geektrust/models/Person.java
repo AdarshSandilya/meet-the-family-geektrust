@@ -88,6 +88,8 @@ public class Person {
     }
 
     public List<Person> getSisters() {
+        if(mother==null)
+            return new ArrayList<>();
         List<Person> daughters = mother.getDaughters();
         if(isFemale())
             daughters.remove(this);
@@ -95,6 +97,8 @@ public class Person {
     }
 
     public List<Person> getBrothers() {
+        if(mother==null)
+            return new ArrayList<>();
         List<Person> brothers = mother.getSons();
         if(isMale())
             brothers.remove(this);
@@ -107,10 +111,6 @@ public class Person {
 
     public List<Person> getSiblings() {
         return Stream.concat(getSisters().stream(), getBrothers().stream()).collect(Collectors.toList());
-    }
-
-    public Person getMother() {
-        return this.mother;
     }
 
     public boolean isMale() {
@@ -147,7 +147,6 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", gender=" + gender +
-                ", spouse=" + spouse +
                 ", mother=" + mother +
                 '}';
     }

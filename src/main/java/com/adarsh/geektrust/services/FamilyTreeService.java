@@ -57,7 +57,7 @@ public class FamilyTreeService {
             throw new PersonNotFoundException(message);
         }
         Gender personGender = Gender.valueOf(gender.toUpperCase());
-        Person person = new Person(personName, personGender, spouse.getMother());
+        Person person = new Person(personName, personGender, null);
         person.setSpouse(spouse);
         spouse.setSpouse(person);
         familyTreeRepository.addPerson(person);
